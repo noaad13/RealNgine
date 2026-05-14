@@ -1,0 +1,10 @@
+<container id="square" z="200">
+    <container id="a">
+        <poly vertices="[(-50,50,0),(50,50,0),(50,-50,0)]" color="#FF0000"/>
+        <poly vertices="[(-50,50,0),(-50,-50,0),(50,-50,0)]" color="#0000FF"/>
+    </container>
+    <container id="b" z="200">
+        <poly vertices="[(-50,50,0),(50,50,0),(50,-50,0)]" color="#FF0000"/>
+        <poly vertices="[(-50,50,0),(-50,-50,0),(50,-50,0)]" color="#0000FF"/>
+    </container>
+</container>
