@@ -1,7 +1,12 @@
+from . import __install_package
 import threading
-import keyboard
 import ctypes
 import time
+try:
+    import keyboard
+except:
+    __install_package("keyboard")
+    import keyboard
 
 class Point(ctypes.Structure):
     _fields_ = [("x", ctypes.c_long),

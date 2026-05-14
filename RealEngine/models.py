@@ -1,5 +1,5 @@
 from .engine import Polygon3d, Container3d
-from . import FROZEN
+from . import __install_package
 import subprocess
 import math
 import time
@@ -8,9 +8,8 @@ import sys
 try:
     from lxml import etree as ET
 except:
-    if not FROZEN:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "lxml"])
-
+    __install_package("lxml")
+    from lxml import etree as ET
 
 
 # Comment créer un modèle en XML:
@@ -35,7 +34,7 @@ def hex_to_rgb(hex_color):
     hex_color = hex_color.lstrip("#")
     return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
 
-def load_from_xml(f_path, rgb=False, debug=False, disable_warnings=False):  # Retourne l'objet container
+def load_from_xml(f_path, debug=False, disable_warnings=False):  # Retourne l'objet container
     t1 = time.perf_counter()
     tree = ET.parse(f_path)
     root = tree.getroot()
@@ -93,9 +92,7 @@ def load_from_xml(f_path, rgb=False, debug=False, disable_warnings=False):  # Re
             if child.tag == "container":
                 obj.children.append(build(child, path, inherit_values.copy()))  # Copie du dict pour éviter un partage entre différentes descendances
             elif child.tag == "poly":
-                color = child.get("color", "#FFFFFF")
-                if rgb:
-                    color = hex_to_rgb(color)
+                color = hex_to_rgb(child.get("color", "#FFFFFF"))
                 vertexes = ast.literal_eval(child.get("vertices"))
                 if reverse_culling:
                     vertexes.reverse()

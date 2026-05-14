@@ -65,7 +65,7 @@ class World:
         self.computed = []
         self.auto_update = auto_update
 
-    def hierarchy(self):  # Important pour savoir quels sont les parents de tout objet
+    def done(self):  # Important pour savoir quels sont les parents de tout objet
         def set_h(obj, parent):
             obj.parents = parent
             if isinstance(obj, engine.Container3d):
