@@ -1,3 +1,4 @@
+from . import FROZEN
 from .render import TurtleScene, PygameScene
 from importlib.util import find_spec
 from .camera import Camera
@@ -10,7 +11,6 @@ import json
 import time
 import sys
 
-FROZEN = getattr(sys, "frozen", False)
 if FROZEN:
     CD = Path(sys.executable).parent
 else:
@@ -67,7 +67,7 @@ class World:
 
     def done(self):  # Important pour savoir quels sont les parents de tout objet
         def set_h(obj, parent):
-            obj.parents = parent
+            obj.parent = parent
             if isinstance(obj, engine.Container3d):
                 for child in obj.children:
                     set_h(child, obj)
@@ -152,7 +152,11 @@ class World:
     def parent(self, obj3d):  # Renvoie le parent de l'objet
         if not obj3d.parents:
             return None
-        path = ".".join(obj3d.parents)
+        try:
+            path = ".".join(obj3d.parents)
+        except Exception as e:
+            print(obj3d.parents, obj3d.parents.path)
+            raise e
         return self.find(path)
 
     @staticmethod
