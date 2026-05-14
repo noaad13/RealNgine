@@ -1,3 +1,5 @@
+from . import __install_package
+
 pygame = None
 turtle = None
 ctypes = None
@@ -6,7 +8,11 @@ def init(gpu=False):
     if gpu:
         global pygame
         global ctypes
-        import pygame
+        try:
+            import pygame
+        except:
+            __install_package("pygame")
+            import pygame
         import ctypes
     else:
         global turtle
