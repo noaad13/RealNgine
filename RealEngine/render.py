@@ -1,4 +1,5 @@
 from . import __install_package
+from .CBindings import ZPixel
 
 pygame = None
 turtle = None
@@ -19,6 +20,7 @@ def init(gpu=False):
     else:
         global turtle
         import turtle
+
 class TurtleScene:
     def __init__(self):
         self.screen = turtle.Screen()
@@ -33,7 +35,7 @@ class TurtleScene:
 
     def exists(self):
         try:
-            return self.turtle.getcanvas().winfo_exists()
+            return self.screen.getcanvas().winfo_exists()
         except:
             return False
 
@@ -89,8 +91,8 @@ class PygameScene:
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.width, self.height = self.screen.get_size()
         self.surface = pygame.display.get_surface()
-        self.buffer = (ctypes.c_uint8 * (self.width * self.height * 3))()  # Objet partagé avec la dll
-        self.zbuffer = (ctypes.c_float * (self.width * self.height))()  # Objet partagé avec la dll
+        self.buffer = (ctypes.c_uint8 * (self.width * self.height * 3))()  # Objet partagé avec la dll (RGB * dimensions)
+        self.zbuffer = (ZPixel * (self.width * self.height))()  # Objet partagé avec la dll (ZPixel * dimensions)
         self.text = []
         self.dots = []
         self.__exists = True

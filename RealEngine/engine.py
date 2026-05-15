@@ -2,6 +2,12 @@ import math
 
 NEAR_PLANE = 1
 
+triangles = []
+
+def init(gpu=False):
+    global NEAR_PLANE
+    NEAR_PLANE = 1 if gpu else 10
+
 def mat4_identity():  # Identité de matrice (EX : identité de multiplication = 1, identité d'addition = 0)
     return [
         [1,0,0,0],
@@ -189,6 +195,8 @@ class Polygon3d:
         self.no_culling = no_culling
         self.computed = None
         self.parents = []
+        self.triangle_id = len(triangles)
+        triangles.append(self)
 
     @property
     def average_z(self):
@@ -211,30 +219,16 @@ class Polygon3d:
             v = mul_mat_vec(M_model, v)
             v = mul_mat_vec(M_view, v)
             clip_space.append(v)
-        all_behind = True
-        for v in clip_space:
-            z = v[2]
-            if z > NEAR_PLANE:
-                all_behind = False
-                break
-        if all_behind:
-            self.computed = []
-            return
         clip_space = clip_polygon_view(clip_space, NEAR_PLANE)
         self.computed = []
-
         for x, y, z, w in clip_space:
-            if abs(w) < 1e-5:
-                continue
-            inv_w = 1.0 / w
-            px = x * inv_w
-            py = y * inv_w
-            pz = z * inv_w
+            px = x / w
+            py = y / w
+            pz = z / w
             if pz <= 0:
                 continue
-            self.computed.append(
-                projection(px, py, pz, camera.focal_lenght)
-            )
+            # px2, py2, pz2 = projection(x, y, z, camera.focal_lenght)
+            self.computed.append(projection(x, y, z, 300))
         if is_backface(self.computed) and not self.no_culling:
             self.computed = []
 
@@ -272,6 +266,17 @@ class Container3d:
         for p in self.computed:
             total += p.average_z
         return total / len(self.computed)
+
+    def new_children(self, obj3d):
+        self.children.append(obj3d)
+
+        def walk(obj):
+            obj.parents = self.parents + [self.path.split(".")[-1]] + obj.parents
+            if isinstance(obj, Container3d):
+                obj.path = self.path + "." + obj.path
+                for child in obj.children:
+                    walk(child)
+        walk(obj3d)
 
     def value(self, k, v=None):
         if v is not None:

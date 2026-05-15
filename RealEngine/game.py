@@ -1,6 +1,7 @@
-from .render import TurtleScene, PygameScene
+from .render import TurtleScene, PygameScene, init as render_init
 from importlib.util import find_spec
 from . import FROZEN, engine
+from .CBindings import ZPixel, INVALID_TRIANGLE
 from .camera import Camera
 from pathlib import Path
 import subprocess
@@ -14,34 +15,47 @@ if FROZEN:
     CD = Path(sys.executable).parent
 else:
     CD = Path(__file__).parent.parent
-RENDER_DLL = str(CD / "Clibs" / "render.dll")
+BUFFERS_DLL = str(CD / "Clibs" / "buffers.dll")
 
 # -- Liaison avec la DLL --
-renderer = ctypes.CDLL(RENDER_DLL)
-renderer.full_rect.argstypes = [
+buffers = ctypes.CDLL(BUFFERS_DLL)
+
+buffers.draw_triangle.argtypes = [
+    ctypes.POINTER(ctypes.c_uint8),  # color buffer
+    ctypes.POINTER(ZPixel),  # z-buffer
+    ctypes.c_int,  # screen width
+    ctypes.c_int,  # screen height
+    ctypes.c_float, ctypes.c_float, ctypes.c_float,  # V1
+    ctypes.c_float, ctypes.c_float, ctypes.c_float,  # V2
+    ctypes.c_float, ctypes.c_float, ctypes.c_float,  # v3
+    ctypes.c_uint8,  # R
+    ctypes.c_uint8,  # G
+    ctypes.c_uint8,  # B
+    ctypes.c_uint16   # triangle id
+]
+
+buffers.cursor_hit.argtypes = [
+    ctypes.POINTER(ZPixel),  # z-buffer
+    ctypes.c_int,  # screen width
+    ctypes.c_int,
+]
+buffers.cursor_hit.restype = ctypes.c_uint16
+
+buffers.clear_buffers.argtypes = [
     ctypes.POINTER(ctypes.c_uint8),
-    ctypes.POINTER(ctypes.c_float),
+    ctypes.POINTER(ZPixel),
     ctypes.c_int,
     ctypes.c_int,
 ]
-renderer.draw_triangle.argtypes = [
+
+buffers.cursor_hit.argstypes = [
     ctypes.POINTER(ctypes.c_uint8),
-    ctypes.POINTER(ctypes.c_float),
-    ctypes.c_int,
-    ctypes.c_int,
-    ctypes.c_float, ctypes.c_float, ctypes.c_float,
-    ctypes.c_float, ctypes.c_float, ctypes.c_float,
-    ctypes.c_float, ctypes.c_float, ctypes.c_float,
-    ctypes.c_uint8,
-    ctypes.c_uint8,
-    ctypes.c_uint8
+    ctypes.POINTER(ZPixel)
 ]
-renderer.clear_buffers.argtypes = [
-    ctypes.POINTER(ctypes.c_uint8),
-    ctypes.POINTER(ctypes.c_float),
-    ctypes.c_int,
-    ctypes.c_int,
-]
+
+def init(gpu=False):
+    render_init(gpu)
+    engine.init(gpu)
 
 def point_in_polygon(polygon, point=(0, 0)):  # Algorithme pour déterminer si on est à l'intérieur du polygon
     x, y = point
@@ -105,8 +119,8 @@ class World:
                 self.scene.fill_polygon(polygon2d, polygon3d.color, polygon3d.borderwidth)
         elif isinstance(self.scene, PygameScene):
             buffer_ptr = ctypes.cast(self.scene.buffer, ctypes.POINTER(ctypes.c_uint8))  # Permet d'envoyer le pointeur à la dll
-            zbuffer_ptr = ctypes.cast(self.scene.zbuffer, ctypes.POINTER(ctypes.c_float))  # Pareil
-            renderer.clear_buffers(buffer_ptr, zbuffer_ptr, self.scene.width, self.scene.height)  # Fonction de la DLL pour effacer rapidement les buffers
+            zbuffer_ptr = ctypes.cast(self.scene.zbuffer, ctypes.POINTER(ZPixel))  # Pareil
+            buffers.clear_buffers(buffer_ptr, zbuffer_ptr, self.scene.width, self.scene.height)  # Fonction de la DLL pour effacer rapidement les buffers
             for polygon3d in self.computed:
                 v = polygon3d.computed
                 if len(v) < 3:
@@ -116,7 +130,7 @@ class World:
                     v2 = v[i]
                     v3 = v[i + 1]
                     r, g, b = polygon3d.color
-                    renderer.draw_triangle(
+                    buffers.draw_triangle(
                         buffer_ptr,
                         zbuffer_ptr,
                         self.scene.width,
@@ -132,21 +146,19 @@ class World:
                         ctypes.c_float(v3[2]),
                         ctypes.c_uint8(r),
                         ctypes.c_uint8(g),
-                        ctypes.c_uint8(b)
+                        ctypes.c_uint8(b),
+                        ctypes.c_uint16(polygon3d.triangle_id)
                     )
         if self.auto_update:
             self.scene.update()
 
     def what_is_cursor_on(self):  # Quel polygone le curseur touche
-        touching = []
-        for polygon3d in self.computed:
-            polygon2d = [coords[:2] for coords in polygon3d.computed]
-            if point_in_polygon(polygon2d, (0, 0)):
-                touching.append(polygon3d)
-        touching = sorted(touching, key=lambda polygon: polygon.average_z)
-        if not touching:
+        triangle_id = buffers.cursor_hit(self.scene.zbuffer, self.scene.width, self.scene.height)
+        if triangle_id == INVALID_TRIANGLE:
             return None
-        return touching[0]
+        if triangle_id >= len(engine.triangles):
+            return None
+        return engine.triangles[triangle_id]
 
     def parent(self, obj3d):  # Renvoie le parent de l'objet
         if not obj3d.parents:
@@ -154,14 +166,13 @@ class World:
         try:
             path = ".".join(obj3d.parents)
         except Exception as e:
-            print(obj3d.parents, obj3d.parents.path)
             raise e
         return self.find(path)
 
     @staticmethod
     def is_parent(container, parent_path):  # Renvoie si le chemin du parent donné est un parent de l'objet
         parent = ".".join(container.parents)
-        if parent_path in parent and parent.startswith(parent):
+        if parent_path in parent and parent.startswith(parent_path):
             return True
         return False
 
