@@ -1,9 +1,8 @@
-from . import FROZEN
 from .render import TurtleScene, PygameScene
 from importlib.util import find_spec
+from . import FROZEN, engine
 from .camera import Camera
 from pathlib import Path
-from . import engine
 import subprocess
 import ctypes
 import math
