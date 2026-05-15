@@ -1,5 +1,4 @@
-from RealNgine import inputs, models
-import RealNgine
+from RealNgine import inputs, models, init
 import turtle
 import math
 import time
@@ -8,10 +7,10 @@ def interaction():  # Quand "E" est pressé
     global door
     global key
     global player
-    touched = world.what_is_cursor_on()
-    if not touched:
+    hit = world.what_is_cursor_on()
+    if not hit:
         return
-    if world.is_parent(touched, "door") and door.average_z < INTERACT_RANGE:
+    if world.is_parent(hit, "door") and door.average_z < INTERACT_RANGE:
         if door.value("locked"):
             if player.has_item("key"):
                 door.value("locked", False)
@@ -23,26 +22,26 @@ def interaction():  # Quand "E" est pressé
             else:
                 door.value("open", True)
                 door.ry = math.pi / 2 * 3
-    if world.is_parent(touched, "key"):
+    if world.is_parent(hit, "key"):
         key.hidden = True
         player.new_item("key")
 
 def crouch():  # Quand shift est pressé
     global player
     if player.crouched:
-        player.cam_y = 0
+        player.cam_y = CAMERA_PLAYER_OFF_Y
     else:
-        player.cam_y = -30
+        player.cam_y = CAMERA_PLAYER_OFF_Y - 30
     player.move(0, 0, 0)
     player.crouched = not player.crouched
 
 def can_interact():  # Te dis si l'objet que tu regardes à un parent intéractif
     global on_interactive
-    touched = world.what_is_cursor_on()
-    if not touched:
+    hit = world.what_is_cursor_on()
+    if not hit:
         on_interactive = False
         return
-    container = world.parent(touched)
+    container = world.parent(hit)
     on_interactive = container.interactive and container.average_z < INTERACT_RANGE
 
 def FPS():
@@ -73,25 +72,30 @@ CAMERA_FOCAL_LENGHT = 400
 INTERACT_RANGE = 200
 PLAYER_SPEED = 200
 CAMERA_KEYBOARD_LOOK_SPEED = 2
-CAMERA_MOUSE_LOOK_SPEED_X = 4
-CAMERA_MOUSE_LOOK_SPEED_Y = 4
+CAMERA_MOUSE_LOOK_SPEED_X = 0.01
+CAMERA_MOUSE_LOOK_SPEED_Y = 0.01
+CAMERA_PLAYER_OFF_X = 0
+CAMERA_PLAYER_OFF_Y = 140
+CAMERA_PLAYER_OFF_Z = 0
 
 # Curseur
 CURSOR_MIN_RADIUS = 2
 CURSOR_MAX_RADIUS = 4
 
-RealNgine.init(GPU)
+init(GPU)
 
-player = RealNgine.game.Player(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)  # Le joueur a une caméra par défaut
+player = RealNgine.game.Player(0, 0, 0, 0, 0, 0, CAMERA_PLAYER_OFF_X, CAMERA_PLAYER_OFF_Y, CAMERA_PLAYER_OFF_Z, 0, 0, 0)  # Le joueur a une caméra par défaut
 player.camera.focal_lenght = CAMERA_FOCAL_LENGHT
 
 # --- Containers import ---
-table = models.load_from_xml("models/table.xml", rgb=GPU, debug=True)
-key = models.load_from_xml("models/key.xml", rgb=GPU, debug=True)
-door = models.load_from_xml("models/door.xml", rgb=GPU, debug=True)
+table = models.load_from_xml("models/table.xml", debug=True)
+key = models.load_from_xml("models/key.xml", debug=True)
+house = models.load_from_xml("models/house.xml", debug=True)
+door = models.load_from_xml("models/door.xml", debug=True)
 
 # --- Configuration des containers ---
 table.children.append(key)  # Key fait partie de la table
+house.children.append(door)
 door.z = 500
 key.rx = math.pi / 2
 key.y = 5
@@ -105,7 +109,10 @@ else:
 world = RealNgine.game.World(scene, player.camera, auto_update=False, resolution=RES)
 
 # Ajout des containers au monde (pas besoin d'inclure key puisqu'il fait partie de table)
-world.containers += [table, door]
+world.containers += [table, house]
+
+# Finalisation du world setup
+# world.done()
 
 # Définition des variables des containers
 door.value("open", False)
@@ -183,8 +190,8 @@ while scene.exists():
         move_x /= length
         move_z /= length
     dx, dy = mouse.displacement()
-    ry = dx * dt
-    rx = -dy * dt
+    ry = dx
+    rx = -dy
     player.rz = (inputs.is_pressed("g") - inputs.is_pressed("f")) * math.pi / 6
     player.rotate(rx, ry, 0)
     player.move(move_x * PLAYER_SPEED * dt, 0, move_z * PLAYER_SPEED * dt)
