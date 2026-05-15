@@ -1,5 +1,4 @@
 from RealNgine import inputs, models, init, game, render
-import turtle
 import math
 import time
 
@@ -9,8 +8,9 @@ def interaction():  # Quand "E" est pressé
     global player
     hit = world.what_is_cursor_on()
     if not hit:
+        print("no hit")
         return
-    if world.is_parent(hit, "door") and door.average_z < INTERACT_RANGE:
+    if world.is_parent(hit, "house.wall1.door") and door.average_z < INTERACT_RANGE:
         if door.value("locked"):
             if player.has_item("key"):
                 door.value("locked", False)
@@ -22,9 +22,17 @@ def interaction():  # Quand "E" est pressé
             else:
                 door.value("open", True)
                 door.ry = math.pi / 2 * 3
-    if world.is_parent(hit, "key"):
+    elif world.is_parent(hit, "house.nightstand.drawer.key"):
         key.hidden = True
         player.new_item("key")
+    elif world.is_parent(hit, "house.nightstand.drawer"):
+        drawer = world.find("house.nightstand.drawer")
+        if drawer.value("open"):
+            drawer.z = 10
+            drawer.value("open", False)
+        else:
+            drawer.z = 32
+            drawer.value("open", True)
 
 def crouch():  # Quand shift est pressé
     global player
@@ -35,12 +43,23 @@ def crouch():  # Quand shift est pressé
     player.move(0, 0, 0)
     player.crouched = not player.crouched
 
-def can_interact():  # Te dis si l'objet que tu regardes à un parent intéractif
+def cursor_hit():  # Te dis si l'objet que tu regardes à un parent interactif
     global on_interactive
+    global selected
     hit = world.what_is_cursor_on()
+    if all((hit, selected)) and hit != selected[0]:
+        selected[0].color = selected[1]
+        selected = None
     if not hit:
         on_interactive = False
         return
+    if not selected or hit != selected[0]:
+        selected = (hit, hit.color)
+        color = hit.color
+        if not GPU:
+            color = models.hex_to_rgb(color)
+        color = int(color[0] * 0.96), int(color[1] * 0.96), int(color[2] * 0.96)
+        hit.color = color if GPU else models.rgb_to_hex(color)
     container = world.parent(hit)
     on_interactive = container.interactive and container.average_z < INTERACT_RANGE
 
@@ -69,13 +88,13 @@ INTERACT = "e"
 
 # Constantes modifiables
 CAMERA_FOCAL_LENGHT = 400
-INTERACT_RANGE = 200
+INTERACT_RANGE = 100
 PLAYER_SPEED = 200
 CAMERA_KEYBOARD_LOOK_SPEED = 2
 CAMERA_MOUSE_LOOK_SPEED_X = 0.01
 CAMERA_MOUSE_LOOK_SPEED_Y = 0.01
 CAMERA_PLAYER_OFF_X = 0
-CAMERA_PLAYER_OFF_Y = 140
+CAMERA_PLAYER_OFF_Y = 110
 CAMERA_PLAYER_OFF_Z = 0
 
 # Curseur
@@ -84,21 +103,18 @@ CURSOR_MAX_RADIUS = 4
 
 init(GPU)
 
+selected = None
+
 player = game.Player(0, 0, 0, 0, 0, 0, CAMERA_PLAYER_OFF_X, CAMERA_PLAYER_OFF_Y, CAMERA_PLAYER_OFF_Z, 0, 0, 0)  # Le joueur a une caméra par défaut
 player.camera.focal_lenght = CAMERA_FOCAL_LENGHT
 
 # --- Containers import ---
-table = models.load_from_xml("models/table.xml", debug=True)
-key = models.load_from_xml("models/key.xml", debug=True)
-house = models.load_from_xml("models/house.xml", debug=True)
-door = models.load_from_xml("models/door.xml", debug=True)
 
-# --- Configuration des containers ---
-table.children.append(key)  # Key fait partie de la table
-house.children.append(door)
-door.z = 500
-key.rx = math.pi / 2
-key.y = 5
+key = models.load_from_xml("models/key.xml", debug=True, rgb=GPU)
+house = models.load_from_xml("models/house.xml", debug=True, rgb=GPU)
+door = models.load_from_xml("models/door.xml", debug=True, rgb=GPU)
+bed = models.load_from_xml("models/bed.xml", debug=True, rgb=GPU)
+nightstand = models.load_from_xml("models/nightstand.xml", debug=True, rgb=GPU)
 
 if GPU:
     scene = render.PygameScene()
@@ -109,14 +125,26 @@ else:
 world = game.World(scene, player.camera, auto_update=False, resolution=RES)
 
 # Ajout des containers au monde (pas besoin d'inclure key puisqu'il fait partie de table)
-world.containers += [table, house]
+world.containers += [house]
 
-# Finalisation du world setup
-# world.done()
+# --- Configuration des containers ---
+house.new_children(nightstand)
+house.new_children(bed)
+nightstand_drawer = world.find("house.nightstand.drawer")
+nightstand_drawer.new_children(key)  # Key fait partie de la table
+house.children[0].new_children(door)
+key.rx = math.pi / 2
+key.x = -10
+key.y = 10
+bed.x = -350
+bed.z = -350
+nightstand.x = -450
+nightstand.z = -400
 
 # Définition des variables des containers
 door.value("open", False)
 door.value("locked", True)
+nightstand_drawer.value("open", False)
 
 listener = inputs.Listener()  # Permet de réaliser des actions indépendamment de la boucle principale en fonction des inputs du joueur
 listener.on_press(INTERACT, interaction)
@@ -127,7 +155,7 @@ mouse = inputs.MouseMotion(scene, CAMERA_MOUSE_LOOK_SPEED_X, CAMERA_MOUSE_LOOK_S
 
 clocks = game.Clocks()  # Des fonctions qui s'exécutent toutes les x secondes
 clocks.add("events", 0.1, scene.handle_events)  # Tous les dixièmes de secondes
-clocks.add("interaction_test", 0.1, can_interact)
+# clocks.add("interaction_test", 0.1, cursor_hit)
 clocks.add("fps", 1, FPS)
 
 on_interactive = False
@@ -135,6 +163,7 @@ on_interactive = False
 t1 = time.perf_counter()  # Utile pour le delta time
 fps = 0
 fps_count = 0
+
 while scene.exists():
     fps_count += 1
     dt = time.perf_counter() - t1 or MIN_DT
