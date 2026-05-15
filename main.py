@@ -1,4 +1,4 @@
-from RealNgine import inputs, models, init
+from RealNgine import inputs, models, init, game, render
 import turtle
 import math
 import time
@@ -84,7 +84,7 @@ CURSOR_MAX_RADIUS = 4
 
 init(GPU)
 
-player = RealNgine.game.Player(0, 0, 0, 0, 0, 0, CAMERA_PLAYER_OFF_X, CAMERA_PLAYER_OFF_Y, CAMERA_PLAYER_OFF_Z, 0, 0, 0)  # Le joueur a une caméra par défaut
+player = game.Player(0, 0, 0, 0, 0, 0, CAMERA_PLAYER_OFF_X, CAMERA_PLAYER_OFF_Y, CAMERA_PLAYER_OFF_Z, 0, 0, 0)  # Le joueur a une caméra par défaut
 player.camera.focal_lenght = CAMERA_FOCAL_LENGHT
 
 # --- Containers import ---
@@ -101,12 +101,12 @@ key.rx = math.pi / 2
 key.y = 5
 
 if GPU:
-    scene = RealNgine.render.PygameScene()
+    scene = render.PygameScene()
 else:
-    scene = RealNgine.render.TurtleScene()
+    scene = render.TurtleScene()
 
 # Ton container monde unique
-world = RealNgine.game.World(scene, player.camera, auto_update=False, resolution=RES)
+world = game.World(scene, player.camera, auto_update=False, resolution=RES)
 
 # Ajout des containers au monde (pas besoin d'inclure key puisqu'il fait partie de table)
 world.containers += [table, house]
@@ -125,7 +125,7 @@ listener.start()
 
 mouse = inputs.MouseMotion(scene, CAMERA_MOUSE_LOOK_SPEED_X, CAMERA_MOUSE_LOOK_SPEED_Y)
 
-clocks = RealNgine.game.Clocks()  # Des fonctions qui s'exécutent toutes les x secondes
+clocks = game.Clocks()  # Des fonctions qui s'exécutent toutes les x secondes
 clocks.add("events", 0.1, scene.handle_events)  # Tous les dixièmes de secondes
 clocks.add("interaction_test", 0.1, can_interact)
 clocks.add("fps", 1, FPS)
