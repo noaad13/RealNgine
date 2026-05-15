@@ -1,0 +1,100 @@
+<container id="nightstand" sx="1.2" sy="1.2" sz="1.2">
+
+    <!-- Corps principal -->
+
+    <!-- Haut -->
+    <triangle vertexes="[(-22,28,-18),(22,28,-18),(22,28,18)]" color="#6f4a2d"/>
+    <triangle vertexes="[(-22,28,-18),(22,28,18),(-22,28,18)]" color="#6f4a2d"/>
+
+    <!-- Bas -->
+    <triangle vertexes="[(-22,0,-18),(22,0,18),(22,0,-18)]" color="#4e321d"/>
+    <triangle vertexes="[(-22,0,-18),(-22,0,18),(22,0,18)]" color="#4e321d"/>
+
+    <!-- Face avant -->
+    <triangle vertexes="[(-22,28,18),(22,28,18),(22,0,18)]" color="#7b5333"/>
+    <triangle vertexes="[(-22,28,18),(22,0,18),(-22,0,18)]" color="#7b5333"/>
+
+    <!-- Face arrière -->
+    <triangle vertexes="[(-22,28,-18),(22,0,-18),(22,28,-18)]" color="#5d3c24"/>
+    <triangle vertexes="[(-22,28,-18),(-22,0,-18),(22,0,-18)]" color="#5d3c24"/>
+
+    <!-- Gauche -->
+    <triangle vertexes="[(-22,28,-18),(-22,28,18),(-22,0,18)]" color="#69452a"/>
+    <triangle vertexes="[(-22,28,-18),(-22,0,18),(-22,0,-18)]" color="#69452a"/>
+
+    <!-- Droite -->
+    <triangle vertexes="[(22,28,-18),(22,0,18),(22,28,18)]" color="#69452a"/>
+    <triangle vertexes="[(22,28,-18),(22,0,-18),(22,0,18)]" color="#69452a"/>
+
+    <!-- Tiroir -->
+
+    <container id="drawer" z="10" interactive="1" sx="1" sy="1" sz="1">
+
+        <!-- ===== STRUCTURE DU TIROIR ===== -->
+
+        <!-- Corps du tiroir (BOÎTE CREUSE) -->
+        <container id="drawer_body" no-culling="1">
+
+            <!-- fond intérieur -->
+            <triangle vertexes="[(-17,6,-12),(17,6,-12),(17,6,12)]" color="#3a2416"/>
+            <triangle vertexes="[(-17,6,-12),(17,6,12),(-17,6,12)]" color="#3a2416"/>
+
+            <!-- paroi gauche intérieure -->
+            <triangle vertexes="[(-17,22,-12),(-17,22,12),(-17,6,12)]" color="#2f1c11"/>
+            <triangle vertexes="[(-17,22,-12),(-17,6,12),(-17,6,-12)]" color="#2f1c11"/>
+
+            <!-- paroi droite intérieure -->
+            <triangle vertexes="[(17,22,-12),(17,6,12),(17,22,12)]" color="#2f1c11"/>
+            <triangle vertexes="[(17,22,-12),(17,6,-12),(17,6,12)]" color="#2f1c11"/>
+
+            <!-- arrière intérieur -->
+            <triangle vertexes="[(-17,22,-12),(17,22,-12),(17,6,-12)]" color="#2a180f"/>
+            <triangle vertexes="[(-17,22,-12),(17,6,-12),(-17,6,-12)]" color="#2a180f"/>
+
+        </container>
+
+        <!-- ===== FAÇADE (bouge avec le tiroir) ===== -->
+        <container id="drawer_front" z="12" no-culling="1">
+
+            <triangle vertexes="[(-18,22,0),(18,22,0),(18,6,0)]" color="#8b5e38"/>
+            <triangle vertexes="[(-18,22,0),(18,6,0),(-18,6,0)]" color="#8b5e38"/>
+
+            <!-- poignée -->
+            <container id="handle" x="0" y="14" z="2">
+
+                <triangle vertexes="[(-2,2,0),(2,2,0),(2,-2,0)]" color="#d4b06a"/>
+                <triangle vertexes="[(-2,2,0),(2,-2,0),(-2,-2,0)]" color="#d4b06a"/>
+
+                <triangle vertexes="[(-2,2,-2),(2,2,-2),(2,2,0)]" color="#f0cf85"/>
+                <triangle vertexes="[(-2,2,-2),(2,2,0),(-2,2,0)]" color="#f0cf85"/>
+
+                <triangle vertexes="[(2,2,-2),(2,-2,-2),(2,-2,0)]" color="#c49a56"/>
+
+            </container>
+
+        </container>
+
+    </container>
+
+    <!-- Pieds -->
+
+    <container id="leg1" x="-18" z="-14" no-culling="1">
+        <triangle vertexes="[(-2,0,-2),(2,0,-2),(2,-10,-2)]" color="#3f2818"/>
+        <triangle vertexes="[(-2,0,-2),(2,-10,-2),(-2,-10,-2)]" color="#3f2818"/>
+    </container>
+
+    <container id="leg2" x="18" z="-14" no-culling="1">
+        <triangle vertexes="[(-2,0,-2),(2,0,-2),(2,-10,-2)]" color="#3f2818"/>
+        <triangle vertexes="[(-2,0,-2),(2,-10,-2),(-2,-10,-2)]" color="#3f2818"/>
+    </container>
+
+    <container id="leg3" x="-18" z="14" no-culling="1">
+        <triangle vertexes="[(-2,0,-2),(2,0,-2),(2,-10,-2)]" color="#3f2818"/>
+        <triangle vertexes="[(-2,0,-2),(2,-10,-2),(-2,-10,-2)]" color="#3f2818"/>
+    </container>
+
+    <container id="leg4" x="18" z="14" no-culling="1">
+        <triangle vertexes="[(-2,0,-2),(2,0,-2),(2,-10,-2)]" color="#3f2818"/>
+        <triangle vertexes="[(-2,0,-2),(2,-10,-2),(-2,-10,-2)]" color="#3f2818"/>
+    </container>
+</container>

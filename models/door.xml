@@ -1,31 +1,31 @@
-<container id="door" x="0" y="0" z="0" px="-45" ry="180" interactive="1">
+<container id="door" x="45" y="110" z="0" px="-45" ry="180" sx="0.8" sy="0.8" sz="0.8" interactive="1">
 
     <!-- PORTE PRINCIPALE -->
     <container id="panel" px="45">
 
         <!-- Face avant -->
-        <poly vertices="[(-45,110,2),(45,110,2),(45,-110,2)]" color="#6b3e26"/>
-        <poly vertices="[(-45,110,2),(45,-110,2),(-45,-110,2)]" color="#6b3e26"/>
+        <triangle vertexes="[(-45,110,2),(45,110,2),(45,-110,2)]" color="#6b3e26"/>
+        <triangle vertexes="[(-45,110,2),(45,-110,2),(-45,-110,2)]" color="#6b3e26"/>
 
         <!-- Face arrière -->
-        <poly vertices="[(-45,110,-2),(45,-110,-2),(45,110,-2)]" color="#5e341f"/>
-        <poly vertices="[(-45,110,-2),(-45,-110,-2),(45,-110,-2)]" color="#5e341f"/>
+        <triangle vertexes="[(-45,110,-2),(45,-110,-2),(45,110,-2)]" color="#5e341f"/>
+        <triangle vertexes="[(-45,110,-2),(-45,-110,-2),(45,-110,-2)]" color="#5e341f"/>
 
         <!-- Tranche gauche -->
-        <poly vertices="[(-45,110,-2),(-45,110,2),(-45,-110,2)]" color="#4a2818"/>
-        <poly vertices="[(-45,110,-2),(-45,-110,2),(-45,-110,-2)]" color="#4a2818"/>
+        <triangle vertexes="[(-45,110,-2),(-45,110,2),(-45,-110,2)]" color="#4a2818"/>
+        <triangle vertexes="[(-45,110,-2),(-45,-110,2),(-45,-110,-2)]" color="#4a2818"/>
 
         <!-- Tranche droite -->
-        <poly vertices="[(45,110,-2),(45,-110,2),(45,110,2)]" color="#4a2818"/>
-        <poly vertices="[(45,110,-2),(45,-110,-2),(45,-110,2)]" color="#4a2818"/>
+        <triangle vertexes="[(45,110,-2),(45,-110,2),(45,110,2)]" color="#4a2818"/>
+        <triangle vertexes="[(45,110,-2),(45,-110,-2),(45,-110,2)]" color="#4a2818"/>
 
         <!-- Haut -->
-        <poly vertices="[(-45,110,-2),(45,110,2),(45,110,-2)]" color="#7a4a2d"/>
-        <poly vertices="[(-45,110,-2),(-45,110,2),(45,110,2)]" color="#7a4a2d"/>
+        <triangle vertexes="[(-45,110,-2),(45,110,2),(45,110,-2)]" color="#7a4a2d"/>
+        <triangle vertexes="[(-45,110,-2),(-45,110,2),(45,110,2)]" color="#7a4a2d"/>
 
         <!-- Bas -->
-        <poly vertices="[(-45,-110,-2),(45,-110,-2),(45,-110,2)]" color="#3f2215"/>
-        <poly vertices="[(-45,-110,-2),(45,-110,2),(-45,-110,2)]" color="#3f2215"/>
+        <triangle vertexes="[(-45,-110,-2),(45,-110,-2),(45,-110,2)]" color="#3f2215"/>
+        <triangle vertexes="[(-45,-110,-2),(45,-110,2),(-45,-110,2)]" color="#3f2215"/>
 
     </container>
 
@@ -33,20 +33,20 @@
     <container id="middle_frame" px="45">
 
         <!-- Haut -->
-        <poly vertices="[(-35,40,2.2),(35,40,2.2),(35,34,2.2)]" color="#4f2c1c"/>
-        <poly vertices="[(-35,40,2.2),(35,34,2.2),(-35,34,2.2)]" color="#4f2c1c"/>
+        <triangle vertexes="[(-35,40,2.2),(35,40,2.2),(35,34,2.2)]" color="#4f2c1c"/>
+        <triangle vertexes="[(-35,40,2.2),(35,34,2.2),(-35,34,2.2)]" color="#4f2c1c"/>
 
         <!-- Bas -->
-        <poly vertices="[(-35,-34,2.2),(35,-34,2.2),(35,-40,2.2)]" color="#4f2c1c"/>
-        <poly vertices="[(-35,-34,2.2),(35,-40,2.2),(-35,-40,2.2)]" color="#4f2c1c"/>
+        <triangle vertexes="[(-35,-34,2.2),(35,-34,2.2),(35,-40,2.2)]" color="#4f2c1c"/>
+        <triangle vertexes="[(-35,-34,2.2),(35,-40,2.2),(-35,-40,2.2)]" color="#4f2c1c"/>
 
         <!-- Gauche -->
-        <poly vertices="[(-35,40,2.2),(-29,40,2.2),(-29,-40,2.2)]" color="#4f2c1c"/>
-        <poly vertices="[(-35,40,2.2),(-29,-40,2.2),(-35,-40,2.2)]" color="#4f2c1c"/>
+        <triangle vertexes="[(-35,40,2.2),(-29,40,2.2),(-29,-40,2.2)]" color="#4f2c1c"/>
+        <triangle vertexes="[(-35,40,2.2),(-29,-40,2.2),(-35,-40,2.2)]" color="#4f2c1c"/>
 
         <!-- Droite -->
-        <poly vertices="[(29,40,2.2),(35,40,2.2),(35,-40,2.2)]" color="#4f2c1c"/>
-        <poly vertices="[(29,40,2.2),(35,-40,2.2),(29,-40,2.2)]" color="#4f2c1c"/>
+        <triangle vertexes="[(29,40,2.2),(35,40,2.2),(35,-40,2.2)]" color="#4f2c1c"/>
+        <triangle vertexes="[(29,40,2.2),(35,-40,2.2),(29,-40,2.2)]" color="#4f2c1c"/>
 
     </container>
 
@@ -54,15 +54,15 @@
     <container id="handle" x="30" y="0" z="4" px="45">
 
         <!-- Centre -->
-        <poly vertices="[(-2,2,0),(2,2,0),(2,-2,0)]" color="#c9b37a"/>
-        <poly vertices="[(-2,2,0),(2,-2,0),(-2,-2,0)]" color="#c9b37a"/>
+        <triangle vertexes="[(-2,2,0),(2,2,0),(2,-2,0)]" color="#c9b37a"/>
+        <triangle vertexes="[(-2,2,0),(2,-2,0),(-2,-2,0)]" color="#c9b37a"/>
 
         <!-- Relief rond approx -->
-        <poly vertices="[(-4,0,-1),(-2,2,0),(-2,-2,0)]" color="#b89d5e"/>
-        <poly vertices="[(4,0,-1),(2,-2,0),(2,2,0)]" color="#d8c48f"/>
+        <triangle vertexes="[(-4,0,-1),(-2,2,0),(-2,-2,0)]" color="#b89d5e"/>
+        <triangle vertexes="[(4,0,-1),(2,-2,0),(2,2,0)]" color="#d8c48f"/>
 
-        <poly vertices="[(0,4,-1),(2,2,0),(-2,2,0)]" color="#d8c48f"/>
-        <poly vertices="[(0,-4,-1),(-2,-2,0),(2,-2,0)]" color="#a88d55"/>
+        <triangle vertexes="[(0,4,-1),(2,2,0),(-2,2,0)]" color="#d8c48f"/>
+        <triangle vertexes="[(0,-4,-1),(-2,-2,0),(2,-2,0)]" color="#a88d55"/>
 
     </container>
 
@@ -70,12 +70,12 @@
     <container id="hinges" px="45">
 
         <!-- Haut -->
-        <poly vertices="[(-46,70,1),(-44,70,1),(-44,50,1)]" color="#777777"/>
-        <poly vertices="[(-46,70,1),(-44,50,1),(-46,50,1)]" color="#777777"/>
+        <triangle vertexes="[(-46,70,1),(-44,70,1),(-44,50,1)]" color="#777777"/>
+        <triangle vertexes="[(-46,70,1),(-44,50,1),(-46,50,1)]" color="#777777"/>
 
         <!-- Bas -->
-        <poly vertices="[(-46,-50,1),(-44,-50,1),(-44,-70,1)]" color="#777777"/>
-        <poly vertices="[(-46,-50,1),(-44,-70,1),(-46,-70,1)]" color="#777777"/>
+        <triangle vertexes="[(-46,-50,1),(-44,-50,1),(-44,-70,1)]" color="#777777"/>
+        <triangle vertexes="[(-46,-50,1),(-44,-70,1),(-46,-70,1)]" color="#777777"/>
 
     </container>
 

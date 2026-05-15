@@ -1,0 +1,103 @@
+<container id="bed" sx="1.5" sy="1.5" sz="1.5">
+
+    <!-- FRAME -->
+
+    <container id="frame">
+
+        <!-- top -->
+        <triangle vertexes="[(-40,6,-80),(40,6,-80),(40,6,80)]" color="#5b3a1e"/>
+        <triangle vertexes="[(-40,6,-80),(40,6,80),(-40,6,80)]" color="#5b3a1e"/>
+
+        <!-- bottom -->
+        <triangle vertexes="[(-40,0,-80),(40,0,80),(40,0,-80)]" color="#4a2f18"/>
+        <triangle vertexes="[(-40,0,-80),(-40,0,80),(40,0,80)]" color="#4a2f18"/>
+
+        <!-- front -->
+        <triangle vertexes="[(-40,6,80),(40,6,80),(40,0,80)]" color="#6b4423"/>
+        <triangle vertexes="[(-40,6,80),(40,0,80),(-40,0,80)]" color="#6b4423"/>
+
+        <!-- back -->
+        <triangle vertexes="[(-40,6,-80),(40,0,-80),(40,6,-80)]" color="#6b4423"/>
+        <triangle vertexes="[(-40,6,-80),(-40,0,-80),(40,0,-80)]" color="#6b4423"/>
+
+        <!-- left -->
+        <triangle vertexes="[(-40,6,-80),(-40,6,80),(-40,0,80)]" color="#7a4b28"/>
+        <triangle vertexes="[(-40,6,-80),(-40,0,80),(-40,0,-80)]" color="#7a4b28"/>
+
+        <!-- right -->
+        <triangle vertexes="[(40,6,-80),(40,0,80),(40,6,80)]" color="#7a4b28"/>
+        <triangle vertexes="[(40,6,-80),(40,0,-80),(40,0,80)]" color="#7a4b28"/>
+
+    </container>
+
+    <!-- MATTRESS -->
+
+    <container id="mattress" y="6">
+
+        <!-- top -->
+        <triangle vertexes="[(-36,12,-76),(36,12,-76),(36,12,76)]" color="#cc2222"/>
+        <triangle vertexes="[(-36,12,-76),(36,12,76),(-36,12,76)]" color="#cc2222"/>
+
+        <!-- bottom -->
+        <triangle vertexes="[(-36,0,-76),(36,0,76),(36,0,-76)]" color="#991111"/>
+        <triangle vertexes="[(-36,0,-76),(-36,0,76),(36,0,76)]" color="#991111"/>
+
+        <!-- sides -->
+        <triangle vertexes="[(-36,12,76),(36,12,76),(36,0,76)]" color="#aa1a1a"/>
+        <triangle vertexes="[(-36,12,76),(36,0,76),(-36,0,76)]" color="#aa1a1a"/>
+
+        <triangle vertexes="[(-36,12,-76),(36,0,-76),(36,12,-76)]" color="#aa1a1a"/>
+        <triangle vertexes="[(-36,12,-76),(-36,0,-76),(36,0,-76)]" color="#aa1a1a"/>
+
+        <triangle vertexes="[(-36,12,-76),(-36,12,76),(-36,0,76)]" color="#bb2222"/>
+        <triangle vertexes="[(-36,12,-76),(-36,0,76),(-36,0,-76)]" color="#bb2222"/>
+
+        <triangle vertexes="[(36,12,-76),(36,0,76),(36,12,76)]" color="#bb2222"/>
+        <triangle vertexes="[(36,12,-76),(36,0,-76),(36,0,76)]" color="#bb2222"/>
+
+    </container>
+
+    <!-- PILLOW -->
+
+    <container id="pillow" y="18" z="-52">
+
+        <!-- top -->
+        <triangle vertexes="[(-28,4,-18),(28,4,-18),(28,4,18)]" color="#eeeeee"/>
+        <triangle vertexes="[(-28,4,-18),(28,4,18),(-28,4,18)]" color="#eeeeee"/>
+
+        <!-- bottom -->
+        <triangle vertexes="[(-28,0,-18),(28,0,18),(28,0,-18)]" color="#cccccc"/>
+        <triangle vertexes="[(-28,0,-18),(-28,0,18),(28,0,18)]" color="#cccccc"/>
+
+        <!-- sides -->
+        <triangle vertexes="[(-28,4,18),(28,4,18),(28,0,18)]" color="#dddddd"/>
+        <triangle vertexes="[(-28,4,18),(28,0,18),(-28,0,18)]" color="#dddddd"/>
+
+        <triangle vertexes="[(-28,4,-18),(28,0,-18),(28,4,-18)]" color="#dddddd"/>
+        <triangle vertexes="[(-28,4,-18),(-28,0,-18),(28,0,-18)]" color="#dddddd"/>
+
+    </container>
+
+    <!-- LEGS -->
+
+    <container id="leg1" x="-34" z="-74" no-culling="1">
+        <triangle vertexes="[(-3,0,-3),(3,0,-3),(3,-20,-3)]" color="#3a2412"/>
+        <triangle vertexes="[(-3,0,-3),(3,-20,-3),(-3,-20,-3)]" color="#3a2412"/>
+    </container>
+
+    <container id="leg2" x="34" z="-74" no-culling="1">
+        <triangle vertexes="[(-3,0,-3),(3,0,-3),(3,-20,-3)]" color="#3a2412"/>
+        <triangle vertexes="[(-3,0,-3),(3,-20,-3),(-3,-20,-3)]" color="#3a2412"/>
+    </container>
+
+    <container id="leg3" x="-34" z="74" no-culling="1">
+        <triangle vertexes="[(-3,0,-3),(3,0,-3),(3,-20,-3)]" color="#3a2412"/>
+        <triangle vertexes="[(-3,0,-3),(3,-20,-3),(-3,-20,-3)]" color="#3a2412"/>
+    </container>
+
+    <container id="leg4" x="34" z="74" no-culling="1">
+        <triangle vertexes="[(-3,0,-3),(3,0,-3),(3,-20,-3)]" color="#3a2412"/>
+        <triangle vertexes="[(-3,0,-3),(3,-20,-3),(-3,-20,-3)]" color="#3a2412"/>
+    </container>
+
+</container>

@@ -1,28 +1,28 @@
-<container id="key" y="9" z="-20" sx="0.2" sy="0.2" sz="0.2" rx="0" interactive="1">
+<container id="key" x="-20" y="9" z="-20" sx="0.2" sy="0.2" sz="0.2" rx="0" interactive="1">
     <container id="ring">
         <container id="golden1" z="2">
-            <poly vertices="[
+            <triangle vertexes="[
             (-22,4,0),(-18,8,0),(-8,12,0),(8,12,0),
             (18,8,0),(22,4,0),(22,-4,0),(18,-8,0),
             (8,-12,0),(-8,-12,0),(-18,-8,0),(-22,-4,0)
             ]" color="#d6b451"/>
         </container>
-        <container id="golden1" z="-2" reverse-culling="1">
-            <poly vertices="[
+        <container id="golden2" z="-2" reverse-culling="1">
+            <triangle vertexes="[
             (-22,4,0),(-18,8,0),(-8,12,0),(8,12,0),
             (18,8,0),(22,4,0),(22,-4,0),(18,-8,0),
             (8,-12,0),(-8,-12,0),(-18,-8,0),(-22,-4,0)
             ]" color="#d6b451"/>
         </container>
         <container id="black1" z="-3" reverse-culling="1">
-            <poly vertices="[
+            <triangle vertexes="[
             (-12,2,0),(-10,5,0),(-5,7,0),(5,7,0),
             (10,5,0),(12,2,0),(12,-2,0),(10,-5,0),
             (5,-7,0),(-5,-7,0),(-10,-5,0),(-12,-2,0)
             ]" color="#000000"/>
         </container>
         <container id="black2" z="3" reverse-culling="0">
-            <poly vertices="[
+            <triangle vertexes="[
             (-12,2,0),(-10,5,0),(-5,7,0),(5,7,0),
             (10,5,0),(12,2,0),(12,-2,0),(10,-5,0),
             (5,-7,0),(-5,-7,0),(-10,-5,0),(-12,-2,0)
@@ -30,63 +30,63 @@
         </container>
     </container>
     <container id="shaft" x="40">
-        <poly vertices="[
+        <triangle vertexes="[
         (-40,3,-3),(55,3,-3),(55,3,3),(-40,3,3)
         ]" color="#e0c15f"/>
-        <poly vertices="[
+        <triangle vertexes="[
         (-40,-3,3),(55,-3,3),(55,-3,-3),(-40,-3,-3)
         ]" color="#b89232"/>
-        <poly vertices="[
+        <triangle vertexes="[
         (-40,3,3),(55,3,3),(55,-3,3),(-40,-3,3)
         ]" color="#8f6d20"/>
-        <poly vertices="[
+        <triangle vertexes="[
         (-40,-3,-3),(55,-3,-3),(55,3,-3),(-40,3,-3)
         ]" color="#8f6d20"/>
-        <poly vertices="[
+        <triangle vertexes="[
         (-40,3,-3),(-40,3,3),(-40,-3,3),(-40,-3,-3)
         ]" color="#d6b451"/>
-        <poly vertices="[
+        <triangle vertexes="[
         (55,-3,-3),(55,-3,3),(55,3,3),(55,3,-3)
         ]" color="#d6b451"/>
     </container>
     <container id="teeth" x="95">
-        <poly vertices="[
+        <triangle vertexes="[
         (0,-10,-3),(10,-10,-3),(10,3,-3),(0,3,-3)
         ]" color="#8f6d20"/>
-        <poly vertices="[
+        <triangle vertexes="[
         (0,3,3),(10,3,3),(10,-10,3),(0,-10,3)
         ]" color="#8f6d20"/>
-        <poly vertices="[
+        <triangle vertexes="[
         (10,-5,-3),(20,-5,-3),(20,3,-3),(10,3,-3)
         ]" color="#8f6d20"/>
-        <poly vertices="[
+        <triangle vertexes="[
         (10,3,3),(20,3,3),(20,-5,3),(10,-5,3)
         ]" color="#8f6d20"/>
-        <poly vertices="[
+        <triangle vertexes="[
         (20,-14,-3),(30,-14,-3),(30,3,-3),(20,3,-3)
         ]" color="#8f6d20"/>
-        <poly vertices="[
+        <triangle vertexes="[
         (20,3,3),(30,3,3),(30,-14,3),(20,-14,3)
         ]" color="#8f6d20"/>
-        <poly vertices="[
+        <triangle vertexes="[
         (30,-14,-3),(30,-14,3),(30,3,3),(30,3,-3)
         ]" color="#c7a03d"/>
-        <poly vertices="[
+        <triangle vertexes="[
         (30,3,-3),(30,3,3),(0,3,3),(0,3,-3)
         ]" color="#e0c15f"/>
-        <poly vertices="[
+        <triangle vertexes="[
         (20,-5,-3),(20,-5,3),(20,-14,3),(20,-14,-3)
         ]" color="#c7a03d"/>
-        <poly vertices="[
+        <triangle vertexes="[
         (10,-10,-3),(10,-10,3),(10,-5,3),(10,-5,-3)
         ]" color="#c7a03d"/>
-        <poly vertices="[
+        <triangle vertexes="[
         (0,-3,-3),(0,-3,3),(0,-10,3),(0,-10,-3)
         ]" color="#c7a03d"/>
-        <poly vertices="[
+        <triangle vertexes="[
         (10,-5,-3),(10,-5,3),(20,-5,3),(20,-5,-3)
         ]" color="#c7a03d"/>
-        <poly vertices="[
+        <triangle vertexes="[
         (0,-10,-3),(0,-10,3),(10,-10,3),(10,-10,-3)
         ]" color="#c7a03d"/>
     </container>
