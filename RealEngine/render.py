@@ -8,6 +8,8 @@ def init(gpu=False):
     if gpu:
         global pygame
         global ctypes
+        from os import environ
+        environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
         try:
             import pygame
         except:

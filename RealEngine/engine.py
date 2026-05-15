@@ -1,7 +1,6 @@
 import math
 
-NEAR_PLANE = 10
-MAX_COORD = 5000
+NEAR_PLANE = 1
 
 def mat4_identity():  # Identité de matrice (EX : identité de multiplication = 1, identité d'addition = 0)
     return [
@@ -231,11 +230,7 @@ class Polygon3d:
             px = x * inv_w
             py = y * inv_w
             pz = z * inv_w
-            sx = x * inv_w
-            sy = y * inv_w
-            if abs(sx) > MAX_COORD or abs(sy) > MAX_COORD:
-                continue
-            if pz <= 1:
+            if pz <= 0:
                 continue
             self.computed.append(
                 projection(px, py, pz, camera.focal_lenght)
@@ -271,6 +266,8 @@ class Container3d:
 
     @property
     def average_z(self):
+        if not self.computed:
+            return math.inf
         total = 0
         for p in self.computed:
             total += p.average_z

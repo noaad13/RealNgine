@@ -70,7 +70,6 @@ class Listener:
 
 class MouseMotion:
     def __init__(self, scene, sensitivity_x=1, sensitivity_y=1):
-        self.t = None
         self.scene = scene
         self.sensitivity = (sensitivity_x, sensitivity_y)
         user32 = ctypes.windll.user32
@@ -78,15 +77,10 @@ class MouseMotion:
         self.scene.hide_mouse()
 
     def displacement(self):
-        if self.t is None:
-            dt = 0
-        else:
-            dt = time.perf_counter() - self.t
         x, y = cursor.position()
         dx, dy = x - self.mid_x, y - self.mid_y
-        self.t = time.perf_counter()
         ctypes.windll.user32.SetCursorPos(self.mid_x, self.mid_y)
-        return dx * dt * self.sensitivity[0], dy * dt * self.sensitivity[1]
+        return dx * self.sensitivity[0], dy * self.sensitivity[1]
 
 def is_pressed(hotkey):
     return keyboard.is_pressed(hotkey)

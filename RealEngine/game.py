@@ -211,7 +211,11 @@ class Player:  # Objet joueur (aura un model dans le futur)
     def rotate(self, rx, ry, rz):
         self.rx += rx
         if abs(self.rx) > math.pi / 2:  # Clamp pitch
-            self.rx = math.pi / 2 * rx / abs(rx)
+            if not abs(rx):
+                rel = 1
+            else:
+                rel = rx / abs(rx)
+            self.rx = math.pi / 2 * rel
         self.ry += ry
         self.rz += rz
         self.rotate_to(self.rx, self.ry, self.rz)
